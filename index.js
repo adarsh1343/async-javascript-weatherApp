@@ -129,7 +129,7 @@ const renderWeatherComponent = (weatherObj) => {
 
     const units = document.createElement("h4");
     units.id = "units";
-    units.textContent = "°C";
+    units.textContent = "K";
     leftSide.appendChild(units);
 
     const rightSide = document.createElement("div");
@@ -138,7 +138,7 @@ const renderWeatherComponent = (weatherObj) => {
 
     const feelsLike = document.createElement("p");
     feelsLike.id = "feelsLike";
-    feelsLike.textContent = `Feels like: ${weatherObj.feelsLike}°C`;
+    feelsLike.textContent = `Feels like: ${weatherObj.feelsLike}K`;
     rightSide.appendChild(feelsLike);
 
     const windspeed = document.createElement("p");
@@ -156,10 +156,16 @@ const renderWeatherComponent = (weatherObj) => {
 async function renderer(weatherObject, first = false) {
     const weatherData = await weatherObject;
 
-    if (first == true) {
+    try {
+        document.getElementById("errorMessage").remove();
+    } catch {}
+
+    if (weatherData == "error") {
+        console.log("error");
+    } else if (first == true) {
         renderWeatherComponent(weatherData);
     } else {
-        document.querySelector("main").remove;
+        document.querySelector("main").remove();
         document.querySelector("input").value = "";
         renderWeatherComponent(weatherData);
     }
